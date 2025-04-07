@@ -6,7 +6,7 @@ type (
 	// TrieNode represents a node in the trie.
 	trieNode struct {
 		// children is a map of child nodes, where the key is the character.
-		children map[rune]*trieNode
+		children map[byte]*trieNode
 		// endOfWord indicates if the node represents the end of a word.
 		endOfWord bool
 	}
@@ -187,7 +187,7 @@ func (t *trie) deleteWorker(node *trieNode, word string, depth int) bool {
 
 // newTrieNode creates a new trie node
 func newTrieNode() *trieNode {
-	return &trieNode{children: make(map[rune]*trieNode)}
+	return &trieNode{children: make(map[byte]*trieNode)}
 }
 
 // isEndOfWord checks if the node is the end of a word
@@ -215,21 +215,21 @@ func (tn trieNode) getChildren(char rune) (*trieNode, bool) {
 	if tn.children == nil {
 		return nil, false
 	}
-	child, exist := tn.children[char]
+	child, exist := tn.children[byte(char)]
 	return child, exist
 }
 
 // getChildrens return all childrens of the node
-func (tn trieNode) getChildrens() map[rune]*trieNode {
+func (tn trieNode) getChildrens() map[byte]*trieNode {
 	return tn.children
 }
 
 // setChildren sets the children of the node
 func (tn *trieNode) setChildren(char rune, child *trieNode) {
-	tn.children[char] = child
+	tn.children[byte(char)] = child
 }
 
 // deleteChildren deletes a child node from the node's children
 func (tn *trieNode) deleteChildren(char rune) {
-	delete(tn.children, char)
+	delete(tn.children, byte(char))
 }
